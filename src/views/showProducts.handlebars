@@ -1,0 +1,30 @@
+<div>
+    <h1>Lista de productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>titulo</th>
+                <th>descripción</th>
+                <th>Precio</th>
+                <th>stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each docs}}
+            <tr>
+                <th>{{this.title}}</th>
+                <th>{{this.description}}</th>
+                <th>{{this.price}}</th>
+                <th>{{this.stock}}</th>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    
+</div>
+<div>
+    <p>Total pages: {{totalPages}}</p>
+    <br>
+    <a>Anterior</a>
+    <a>Siguiente</a>
+</div>

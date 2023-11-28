@@ -10,10 +10,15 @@ router.get("/", async (req, res) => {
     let sort = req.query.sort || "";
     if (sort != "" && sort == "asc") sort = 1
     if (sort != "" && sort == "desc") sort = -1
-    const result = await productsModel.paginate(query, {
-        limit, page, sort: { price: sort }, lean: true
-    })
-    res.render("showProducts", result)
+    try {
+        const result = await productsModel.paginate(query, {
+            limit, page, sort: ({ price: sort }), lean: true
+        })
+        result.payload = result.docs
+        delete result.docs
+        result.status = "Success"
+        res.render("showProducts", result)
+    } catch (e) { console.log(); }
 })
 router.post("/", async (req, res) => {
     const newProduct = req.body

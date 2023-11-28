@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each docs}}
+            {{#each payload}}
             <tr>
                 <th>{{this.title}}</th>
                 <th>{{this.description}}</th>
@@ -22,10 +22,21 @@
     </table>
     
 </div>
-<div>
-    
+<div class="footer">
     <p>Total pages: {{totalPages}}</p>
     <br>
-    <a>Anterior</a>
-    <a>Siguiente</a>
+    <a id="btnPrev" href="#"  {{#unless hasPrevPage}} style="display: none;"{{/unless}}>Anterior</a>
+    <a id="btnNext" href="#" {{#unless hasNextPage}} style="display: none;"{{/unless}}>Siguiente</a>
 </div>
+<script>
+    document.querySelector(`#btnPrev`).onclick = ()=>{
+        console.log("Entro")
+        const url = `/?page=${prevPage}`
+        document.location.href = url
+    }
+    document.querySelector(`#btnNext`).onclick = () => {
+        console.log("Entro")
+        const url = `/?page=${nextPage}`
+        document.location.href = url
+        }
+</script>

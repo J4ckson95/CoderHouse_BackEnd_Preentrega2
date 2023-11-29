@@ -4,27 +4,34 @@ import productsModel from "../models/products.js"
 const router = Router()
 
 router.get("/", async (req, res) => {
-    const limit = parseInt(req.query.limit) || 2;
-    const page = parseInt(req.query.page) || 1;
-    console.log(page);
-    const query = req.query.query || {};
-    let sort = req.query.sort || -1;
-    if (sort != "" && sort == "asc") sort = 1
-    if (sort != "" && sort == "desc") sort = -1
     try {
+        const { limit = 2, page = 1, query = {}, sort = -1 } = req.query;
+        const sortOrder = sort === "asc" ? 1 : sort === "desc" ? -1 : -1;
         const result = await productsModel.paginate(query, {
-            limit, page, sort: ({ price: sort }), lean: true
+            limit, page, sort: ({ price: sortOrder }), lean: true
         })
-        result.payload = result.docs
-        delete result.docs
-        result.status = "Success"
-        //console.log(result);
-        res.render("showProducts", result)
-    } catch (e) { console.log(e.message); }
+        const { docs: payload, page: pageM, hasPrevPage, prevPage, hasNextPage, nextPage, totalPages } = result;
+        res.render("showProducts", {
+            status: "Success",
+            payload,
+            totalPages,
+            prevPage,
+            nextPage,
+            page: pageM,
+            hasPrevPage,
+            hasNextPage,
+            prevLink: hasPrevPage ? `/api/products/?page=${prevPage}` : null,
+            nextLink: hasNextPage ? `/api/products/?page=${nextPage}` : null,
+        });
+    } catch (e) { res.status(500).send({ status: "Error", message: e.message }); }
 })
 router.post("/", async (req, res) => {
-    const newProduct = req.body
-    const result = await productsModel.create(newProduct)
-    res.send({ status: "Success", payload: result })
+    try {
+        const newProduct = req.body;
+        const result = await productsModel.create(newProduct);
+        res.send({ status: "Success", payload: result });
+    } catch (e) {
+        res.status(500).send({ status: "Error", message: e.message });
+    }
 })
 export default router

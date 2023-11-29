@@ -3,10 +3,11 @@
     <table>
         <thead>
             <tr>
-                <th>titulo</th>
-                <th>descripción</th>
+                <th>Titulo</th>
+                <th>Descripción</th>
                 <th>Precio</th>
-                <th>stock</th>
+                <th>Stock</th>
+                <th>Comprar</th>
             </tr>
         </thead>
         <tbody>
@@ -16,27 +17,15 @@
                 <th>{{this.description}}</th>
                 <th>{{this.price}}</th>
                 <th>{{this.stock}}</th>
+                <th><button>Comprar</button></th>
             </tr>
             {{/each}}
         </tbody>
     </table>
-    
 </div>
 <div class="footer">
-    <p>Total pages: {{totalPages}}</p>
-    <br>
-    <a id="btnPrev" href="#"  {{#unless hasPrevPage}} style="display: none;"{{/unless}}>Anterior</a>
-    <a id="btnNext" href="#" {{#unless hasNextPage}} style="display: none;"{{/unless}}>Siguiente</a>
+    {{#if hasPrevPage}}<a id="btnPrev" href={{prevLink}}>Anterior</a>{{/if}}
+    <p>Pagina actual: {{page}}</p>
+    {{#if hasNextPage}}<a id="btnNext" href={{nextLink}} >Siguiente</a>{{/if}}
 </div>
-<script>
-    document.querySelector(`#btnPrev`).onclick = ()=>{
-        console.log("Entro")
-        const url = `/?page=${prevPage}`
-        document.location.href = url
-    }
-    document.querySelector(`#btnNext`).onclick = () => {
-        console.log("Entro")
-        const url = `/?page=${nextPage}`
-        document.location.href = url
-        }
-</script>
+

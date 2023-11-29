@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import { DB_HOST, PORT, DB_DATABASE } from "./config.js"
 import productsRouter from "./router/products.router.js"
+import cartsRouter from "./router/carts.router.js"
 import handlebars from "express-handlebars"
 import __dirname from "./utils.js"
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + `/public`))
 
 app.use("/api/products", productsRouter)
+app.use("/api/cart", cartsRouter)
 
 app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + `/views`)

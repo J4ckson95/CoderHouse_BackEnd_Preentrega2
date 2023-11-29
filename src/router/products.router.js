@@ -5,7 +5,7 @@ const router = Router()
 
 router.get("/", async (req, res) => {
     try {
-        const { limit = 2, page = 1, query = {}, sort = -1 } = req.query;
+        const { limit = 2, page = 1, query = {}, sort = "desc" } = req.query;
         const sortOrder = sort === "asc" ? 1 : sort === "desc" ? -1 : -1;
         const result = await productsModel.paginate(query, {
             limit, page, sort: ({ price: sortOrder }), lean: true
@@ -20,8 +20,8 @@ router.get("/", async (req, res) => {
             page: pageM,
             hasPrevPage,
             hasNextPage,
-            prevLink: hasPrevPage ? `/api/products/?page=${prevPage}` : null,
-            nextLink: hasNextPage ? `/api/products/?page=${nextPage}` : null,
+            prevLink: hasPrevPage ? `/api/products/?page=${prevPage}&?limit=${limit}&?query=${query}&?sort=${sort}` : null,
+            nextLink: hasNextPage ? `/api/products/?page=${nextPage}&?limit=${limit}&?query=${query}&?sort=${sort}` : null,
         });
     } catch (e) { res.status(500).send({ status: "Error", message: e.message }); }
 })

@@ -94,7 +94,7 @@ button{
     for(let i=0; i < button.length; i++){
         button[i].onclick = (e)=>{
             const productId = e.target.id
-            fetch(`/api/cart/product/${productId}`)
+            fetch(`/api/cart/product/${productId}`,{method:"POST"})
         }
     }
 </script>

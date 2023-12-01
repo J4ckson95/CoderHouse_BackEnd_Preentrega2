@@ -5,12 +5,7 @@ const router = Router()
 router.get("/:cid", async (req, res) => {
     try {
         const cartId = req.params.cid
-        const result = await cartsModel.find({ _id: cartId })
-        //console.log();
-        const data = result.map((element) => {
-            title: element.products.product.title
-        })
-        console.log(data);
+        const result = await cartsModel.find({ _id: cartId }).lean().exec()
         res.render("showCarts", { result })
     } catch (e) { res.status(500).send({ status: "Error", message: e.message }); }
 })

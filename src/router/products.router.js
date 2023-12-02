@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
             limit, page, sort: ({ price: sortOrder }), lean: true
         })
         const { docs: payload, page: pageM, hasPrevPage, prevPage, hasNextPage, nextPage, totalPages } = result;
-        console.log(payload);
         res.render("showProducts", {
             status: "Success",
             payload,

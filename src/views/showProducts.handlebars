@@ -57,7 +57,10 @@ button{
 </style>
 <body>
 <div class="container">
-    <h1>Lista de productos</h1>
+    <div>
+        <h1>Lista de productos</h1>
+        <button class="button" id="cart">🛒</button>
+    </div>
     <table>
         <thead>
             <tr>
@@ -94,7 +97,14 @@ button{
     for(let i=0; i < button.length; i++){
         button[i].onclick = (e)=>{
             const productId = e.target.id
-            fetch(`/api/cart/product/${productId}`,{method:"POST"})
-        }
+            fetch(`/api/cart/product/${productId}`,{method:"POST"}).then(response => {
+                if (!response.ok) return response.json()
+            })
+                .then(data => console.log(data.dataCartId))
+                .catch(error => {
+                    console.error('Error :', error);
+                })
+        };
     }
+    
 </script>

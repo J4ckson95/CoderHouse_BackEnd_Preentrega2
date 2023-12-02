@@ -1,6 +1,5 @@
 import express from "express"
 import mongoose from "mongoose"
-import { DB_HOST, PORT, DB_DATABASE } from "./config.js"
 import productsRouter from "./router/products.router.js"
 import cartsRouter from "./router/carts.router.js"
 import handlebars from "express-handlebars"
@@ -18,9 +17,9 @@ app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + `/views`)
 app.set("view engine", "handlebars")
 
-mongoose.connect(DB_HOST, { dbName: DB_DATABASE })
+mongoose.connect("mongodb+srv://J4ckson:IIQyDhhK1Ax1pSgX@coderhousebackend.jdnxmo1.mongodb.net/", { dbName: "ecommerce" })
     .then(() => {
         console.log("DB Connected ....");
-        app.listen(PORT, () => console.log("Running Server ... <(--_--)>"))
+        app.listen(8080, () => console.log("Running Server ... <(--_--)>"))
     })
     .catch((e) => console.log(e.message))

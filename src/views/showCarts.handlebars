@@ -42,12 +42,12 @@
         <h1>Mis Compras - Librería Online</h1>
     </header>
     <section>
-        {{#each result}}
+        {{#each data}}
         <article>
-            <img src="imagen_libro1.jpg" alt="Libro 1">
-            <h2>{{this.product.title}}</h2>
-            <p>Autor: Nombre del Autor 1</p>
-            <p>{{this.price}}</p>
+            <img alt="Libro 1">
+            <h2>El titulo del libro: {{product.title}}</h2>
+            <p>Precio: ${{product.price}}</p>
+            <p>Cantidad de productos: {{quantity}}</p>
         </article>
         {{/each}}
     </section>

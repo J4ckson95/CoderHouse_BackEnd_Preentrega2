@@ -5,8 +5,8 @@ const router = Router()
 router.get("/:cid", async (req, res) => {
     try {
         const cartId = req.params.cid
-        const result = await cartsModel.find({ _id: cartId }).lean().exec()
-        res.render("showCarts", { result })
+        const result = await cartsModel.find({ _id: cartId }).lean()
+        res.render("showCarts", { data: result[0].products })
     } catch (e) { res.status(500).send({ status: "Error", message: e.message }); }
 })
 router.post("/product/:idp", async (req, res) => {
@@ -16,8 +16,17 @@ router.post("/product/:idp", async (req, res) => {
         if (!cart) cart = await cartsModel.create({});
         updateCart(cart, productId)
         const result = await cartsModel.updateOne({ _id: cart._id }, { $set: { products: cart.products } })
-        return res.send({ status: "Success", result })
+        res.send({ status: "Success", result })
+        res.json({ dataCartId: cart._id })
     } catch (e) { res.status(500).send({ status: "Error", message: e.message }); }
+})
+router.delete("/:cid/product/:pid", async (req, res) => {
+    const cartId = req.params.cid
+    const productId = req.params.pid
+    const cart = await cartsModel.findOne({ _id: cartId })
+    const newProducts = cart.products.filter((element) => element.product.toString() !== productId)
+    await cartsModel.updateOne({ _id: cartId }, { $set: { products: newProducts } })
+    res.send({ status: "Succes" })
 })
 
 const updateCart = (cart, productId) => {
